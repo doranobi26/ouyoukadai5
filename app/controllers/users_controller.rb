@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   def show
     @user=User.find(params[:id])
+    @post_comment=PostComment.new
     @books=@user.books
     @book=Book.new
      #今だけ暫定的にこの表記。ログインしたユーザーの本の一覧のみにする必要がある。今は全ユーザーの本の投稿一覧となってしまっている。
@@ -16,18 +17,18 @@ class UsersController < ApplicationController
     #end
   end
 
-  def index
-    @users=User.all
-    @book=Book.new
-    #@user.id = current_user.id
-    #@user=User.find(params[:id])
-  end
-
   def edit
     @user=User.find(params[:id])
     if current_user != @user
       redirect_to user_path(current_user)
     end
+  end
+
+  def index
+    @users=User.all
+    @book=Book.new
+    #@user.id = current_user.id
+    #@user=User.find(params[:id])
   end
 
   def update
