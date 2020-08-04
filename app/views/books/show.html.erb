@@ -25,17 +25,47 @@
 						<th><%=@user.introduction %></th>
 					</tr>
 
+					<tr>
+						<th>follows</th>
+						<th>
+							<%=link_to follows_user_path(@user.id)do %>
+							<%=@user.followings.count  %>
+							<% end %>
+						</th>
+					</tr>
+
+					<tr>
+						<th>followers</th>
+						<th>
+							<%=link_to followers_user_path(@user.id)do %>
+							<%=@user.followers.count %>
+							<% end %>
+						</th>
+					</tr>
+
+
 					<%# if @user.id==current_user.id %>
 					<%#=link_to edit_user_path(@user.id),class:"btn btn-default btn-lg btn-block glyphicon glyphicon-wrench btn-block" %>
 					<%# end %>
 				</tbody>
 			</table>
 
+			<% if @user != current_user %>
+			 <% if @user.followed_by?(current_user) %>
+				<%=link_to "フォローを外す",user_relationships_path(@user.id),class:"btn btn-primary", method: :delete %>
+			<% else %>
+				<%=link_to "フォローする",user_relationships_path(@user.id),class:"btn btn-success",method: :post %>
+			 <% end %>
+			<% end %>
+
+
 			<%# if @user.id==current_user.id %>
+			      <div class="spacing">
 					<%=link_to edit_user_path(@user.id),class:"btn btn-default  btn-block" do %>
 					<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
 					<%# end %>
 					<% end %>
+				   </div>
 
 
 			<!-- ボタンの処理-->
@@ -120,9 +150,9 @@
 
 
 
-					<td><%=link_to user_path(current_user) do %>
-					  	  <%=attachment_image_tag current_user, :profile_image, size: "40x40", format: 'jpeg', class: "img-circle", fallback: "no_image.jpg" %><br>
-					  	  <%=link_to current_user.name,user_path(current_user) %>
+					<td><%=link_to user_path(post_comment.user.id) do %>
+					  	  <%=attachment_image_tag post_comment.user, :profile_image, size: "40x40", format: 'jpeg', class: "img-circle", fallback: "no_image.jpg" %><br>
+					  	  <%=post_comment.user.name %>
 					  	 <% end %>
 					</td>
 

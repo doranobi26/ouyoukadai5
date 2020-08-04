@@ -4,6 +4,7 @@
 	<div class="row">
 		<div class="col-xs-3">
 
+
 			<h3 class="user_info">User info</h3>
 			<!-- プロフィール写真の処理を行う-->
 			<%= attachment_image_tag current_user, :profile_image, size: "100x100", format: 'jpeg', class: "img-circle",    fallback: "no_image.jpg" %>
@@ -19,6 +20,24 @@
 					<tr>
 						<th>introduction</th>
 						<th><%=current_user.introduction %></th>
+					</tr>
+
+					<tr>
+						<th>follows</th>
+						<th>
+							<%=link_to follows_user_path(current_user)do %>
+							<%= current_user.followings.count  %>
+							<% end %>
+						</th>
+					</tr>
+
+					<tr>
+						<th>followers</th>
+						<th>
+							<%=link_to followers_user_path(current_user)do %>
+							<%= current_user.followers.count %>
+							<% end %>
+						</th>
 					</tr>
 				</tbody>
 			</table>
@@ -52,6 +71,9 @@
 						<th>image</th>
 						<th>name</th>
 						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
 					</tr>
 				</thead>
 
@@ -64,6 +86,25 @@
 						</td>
 						<td>
 							<%=user.name %>
+						</td>
+
+						<td>
+							フォロー数:<%= user.followings.count %>
+						</td>
+
+						<td>
+							フォロワー数:<%= user.followers.count %>
+						</td>
+
+						<td>
+							<% if current_user != user %>
+							<% if user.followed_by?(current_user) %>
+							 <%=link_to "フォローを外す",user_relationships_path(user.id),method: :delete %>
+							<% else %>
+							 <%=link_to "フォローする",user_relationships_path(user.id),method: :post %>
+							 <% end %>
+							 <% end %>
+
 						</td>
 						<td>
 							<%=link_to "Show" ,user_path(user.id) %>
