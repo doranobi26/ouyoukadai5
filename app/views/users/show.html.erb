@@ -1,3 +1,22 @@
+<div class="containere28">
+	<div class="row">
+		<div class="col-xs-2"></div>
+		<div class="col-xs-8">
+			<% if user_signed_in? %>
+			<%= form_tag(search_path, :method => 'get') do %>
+			<%= text_field_tag :search %>
+            <%= select_tag(:option, options_for_select([["user", "1"],["book","2"]]))%>
+            <%= select_tag(:choice, options_for_select([["部分一致", "1" ],["後方一致", "2" ],["前方一致", "3" ],["完全一致", "4" ]])) %>
+            <%= submit_tag '検索' %>
+            <% end %>
+            <% end %>
+		</div>
+		<div class="col-xs-2"></div>
+	</div>
+</div>
+
+
+
 <div class="container10">
 	<div class="space">
 	<p class="notice"><%= notice %></p>
@@ -8,7 +27,7 @@
 
 			<h3 class="info">User info</h3>
 			<!-- プロフィール写真の処理を行う-->
-			
+
 
 			<%= attachment_image_tag @user, :profile_image, size: "100x100", format: 'jpeg', class: "img-circle",    fallback: "no_image.jpg" %>
   　　　　　　<%# if @user.id == current_user.id %>
